@@ -2,31 +2,31 @@
 # Usage: ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=stereo_vins_bridge.yaml
 
 # Left camera image
-- topic_name: "/model/x500_stereo_cam/left/image_raw"
+- gz_topic_name: "/left/image_raw"
   ros_topic_name: "/cam0/image_raw"
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "gz.msgs.Image"
 
 # Left camera info
-- topic_name: "/model/x500_stereo_cam/left/camera_info"
+- gz_topic_name: "/left/camera_info"
   ros_topic_name: "/cam0/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
 
 # Right camera image
-- topic_name: "/model/x500_stereo_cam/right/image_raw"
+- gz_topic_name: "/right/image_raw"
   ros_topic_name: "/cam1/image_raw"
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "gz.msgs.Image"
 
 # Right camera info
-- topic_name: "/model/x500_stereo_cam/right/camera_info"
+- gz_topic_name: "/right/camera_info"
   ros_topic_name: "/cam1/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
 
 # IMU for VINS-Fusion
-- topic_name: "/model/x500_stereo_cam/stereo_imu"
+- gz_topic_name: "/stereo_imu"
   ros_topic_name: "/imu0"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"

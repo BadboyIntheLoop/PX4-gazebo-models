@@ -2,7 +2,7 @@
 
 ## Overview
 
-This model provides an x500 quadrotor equipped with a stereo camera system designed for Visual-Inertial Odometry (VIO) using VINS-Fusion.
+This model provides an x500 quadrotor equipped with a stereo camera system designed for Visual-Inertial Odometry (VIO) using VINS-Fusion with ROS 2 integration.
 
 ## Specifications
 
@@ -37,7 +37,7 @@ These values correspond to a focal length suitable for the 80° FOV at 752x480 r
 Relative to vehicle center of gravity:
 - **X (forward)**: 0.12 m
 - **Y (right)**: 0.0 m
-- **Z (down)**: -0.05 m
+- **Z (down)**: 0.05 m
 
 ## Usage
 
@@ -79,29 +79,29 @@ Save this as `stereo_vins_bridge.yaml`:
 
 ```yaml
 # Left camera
-- topic_name: "/model/x500_stereo_cam/left/image_raw"
+- gz_topic_name: "/left/image_raw"
   ros_topic_name: "/cam0/image_raw"
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "gz.msgs.Image"
 
-- topic_name: "/model/x500_stereo_cam/left/camera_info"
+- gz_topic_name: "/left/camera_info"
   ros_topic_name: "/cam0/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
 
 # Right camera
-- topic_name: "/model/x500_stereo_cam/right/image_raw"
+- gz_topic_name: "/right/image_raw"
   ros_topic_name: "/cam1/image_raw"
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "gz.msgs.Image"
 
-- topic_name: "/model/x500_stereo_cam/right/camera_info"
+- gz_topic_name: "/right/camera_info"
   ros_topic_name: "/cam1/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
 
 # IMU
-- topic_name: "/model/x500_stereo_cam/stereo_imu"
+- gz_topic_name: "/stereo_imu"
   ros_topic_name: "/imu0"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
@@ -203,14 +203,8 @@ ros2 run ros_gz_bridge parameter_bridge --ros-args \
 
 ### Terminal 3: Run VINS-Fusion
 ```bash
-source ~/vins_ws/devel/setup.bash  # Or your VINS workspace
-roslaunch vins vins_rviz.launch config_path:=/path/to/stereo_camera_calib.yaml
-```
-
-### Terminal 4 (Optional): Send VINS Output to PX4
-```bash
-# Use MAVROS to send VINS odometry back to PX4
-rosrun mavros_extras vision_pose_estimate_publisher
+source ~/vins_ws/install/setup.bash  # Or your VINS-Fusion ROS 2 workspace
+ros2 launch vins vins_fusion_stereo.launch.py config_path:=/path/to/stereo_camera_calib.yaml
 ```
 
 ## Troubleshooting
@@ -254,6 +248,9 @@ x500_stereo_cam/
 
 ## References
 
-- VINS-Fusion: https://github.com/HKUST-Aerial-Robotics/VINS-Fusion
+- VINS-Fusion (original): https://github.com/HKUST-Aerial-Robotics/VINS-Fusion
+- VINS-Fusion ROS 2 port: https://github.com/engcang/VINS-Fusion-ROS2
 - Gazebo Documentation: https://gazebosim.org/docs
+- ROS 2 Gazebo Bridge: https://github.com/gazebosim/ros_gz
 - PX4 External Vision: https://docs.px4.io/main/en/computer_vision/visual_inertial_odometry.html
+- MAVROS2: https://github.com/mavlink/mavros
