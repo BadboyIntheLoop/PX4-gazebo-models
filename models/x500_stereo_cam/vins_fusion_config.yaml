@@ -1,0 +1,113 @@
+%YAML:1.0
+
+#--------------------------------------------------------------------------------------------
+# Camera-IMU Configuration for VINS-Fusion with x500_stereo_cam Gazebo Model
+#--------------------------------------------------------------------------------------------
+
+#common parameters
+imu_topic: "/imu0"
+image0_topic: "/cam0/image_raw"
+image1_topic: "/cam1/image_raw"
+output_path: "~/output/"
+
+#camera calibration
+model_type: PINHOLE
+camera_name: stereo_gazebo
+image_width: 752
+image_height: 480
+
+#Distortion Parameters (radial-tangential)
+distortion_parameters:
+   k1: 0.0
+   k2: 0.0
+   p1: 0.0
+   p2: 0.0
+
+#Projection Parameters
+projection_parameters:
+   fx: 458.654
+   fy: 457.296
+   cx: 367.215
+   cy: 248.375
+
+# Right camera has same intrinsics as left
+distortion_parameters1:
+   k1: 0.0
+   k2: 0.0
+   p1: 0.0
+   p2: 0.0
+
+projection_parameters1:
+   fx: 458.654
+   fy: 457.296
+   cx: 367.215
+   cy: 248.375
+
+# Extrinsic parameter between IMU and Camera (body to camera)
+estimate_extrinsic: 0   # 0: Have accurate extrinsic parameters; 1: Calibrate extrinsic parameters
+
+# Transformation from body (IMU) to left camera (cam0)
+# Cameras are mounted 0.12m forward from IMU, with left camera at +0.06m Y-offset
+body_T_cam0: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1.0, 0.0, 0.0, 0.0,
+          0.0, 1.0, 0.0, 0.06,
+          0.0, 0.0, 1.0, 0.0,
+          0.0, 0.0, 0.0, 1.0]
+
+# Transformation from body (IMU) to right camera (cam1)
+# Right camera at -0.06m Y-offset (120mm baseline)
+body_T_cam1: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1.0, 0.0, 0.0, 0.0,
+          0.0, 1.0, 0.0, -0.06,
+          0.0, 0.0, 1.0, 0.0,
+          0.0, 0.0, 0.0, 1.0]
+
+#Multiple thread support
+multiple_thread: 1
+
+#feature traker paprameters
+max_cnt: 150            # max feature number in feature tracking
+min_dist: 30            # min distance between two features
+freq: 10                # frequence (Hz) of publish tracking result
+F_threshold: 1.0        # ransac threshold (pixel)
+show_track: 1           # publish tracking image as topic
+equalize: 1             # if image is too dark or light, trun on equalize to find enough features
+fisheye: 0              # if using fisheye, turn on it
+
+#optimization parameters
+max_solver_time: 0.04  # max solver itration time (ms), to guarantee real time
+max_num_iterations: 8   # max solver itrations, to guarantee real time
+keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
+
+#imu parameters       The more accurate parameters you provide, the better performance
+# IMU noise characteristics from Gazebo simulation
+acc_n: 0.017          # accelerometer measurement noise standard deviation.
+gyr_n: 0.009          # gyroscope measurement noise standard deviation.
+acc_w: 0.001          # accelerometer bias random work noise standard deviation.
+gyr_w: 0.00009        # gyroscope bias random work noise standard deviation.
+g_norm: 9.81007       # gravity magnitude
+
+#loop closure parameters
+loop_closure: 1                    # start loop closure
+fast_relocalization: 0             # useful in real-time and large project
+load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
+pose_graph_save_path: "~/output/pose_graph/" # save and load path
+
+#unsynchronization parameters
+estimate_td: 0                      # online estimate time offset between camera and IMU
+td: 0.0                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+
+#rolling shutter parameters
+rolling_shutter: 0                  # 0: global shutter camera, 1: rolling shutter camera
+rolling_shutter_tr: 0               # unit: s. rolling shutter read out time per frame (from data sheet).
+
+#visualization parameters
+save_image: 1                       # save image in pose graph for visualization purpose; you can close this function by setting 0
+visualize_imu_forward: 0            # output imu forward propogation to achieve low latency and high frequence results
+visualize_camera_size: 0.4          # size of camera marker in RVIZ
