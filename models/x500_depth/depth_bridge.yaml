@@ -1,0 +1,61 @@
+# ROS2-Gazebo Bridge Configuration for x500_depth (OakD-Lite)
+#
+# Usage:
+#   ros2 run ros_gz_bridge parameter_bridge --ros-args \
+#     -p config_file:=/path/to/depth_bridge.yaml
+#
+# This bridges the OakD-Lite depth camera topics from Gazebo to ROS2
+# Includes: Point Cloud, Depth Image, RGB Image, Camera Info, and Clock
+
+# ============================================================================
+# POINT CLOUD - Primary output for obstacle avoidance / 3D mapping
+# ============================================================================
+- gz_topic_name: "/depth_camera/points"
+  ros_topic_name: "/camera/depth/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+
+# ============================================================================
+# DEPTH IMAGE - Raw depth values
+# ============================================================================
+- gz_topic_name: "/depth_camera"
+  ros_topic_name: "/camera/depth/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Depth camera info (intrinsics)
+- gz_topic_name: "/depth_camera/camera_info"
+  ros_topic_name: "/camera/depth/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# ============================================================================
+# RGB CAMERA - Color image from IMX214 sensor
+# Note: Full topic path depends on model name (x500_depth_0)
+# ============================================================================
+- gz_topic_name: "/world/world_demo/model/x500_depth_0/link/camera_link/sensor/IMX214/image"
+  ros_topic_name: "/camera/color/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# RGB camera info (intrinsics)
+- gz_topic_name: "/world/world_demo/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info"
+  ros_topic_name: "/camera/color/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# ============================================================================
+# CLOCK - For time synchronization between Gazebo and ROS2
+# ============================================================================
+- gz_topic_name: "/clock"
+  ros_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+
+# ============================================================================
+# TF - Transform from model pose (for RViz2 visualization)
+# ============================================================================
+- gz_topic_name: "/model/x500_depth_0/pose"
+  ros_topic_name: "/model/x500_depth_0/pose"
+  ros_type_name: "geometry_msgs/msg/PoseStamped"
+  gz_type_name: "gz.msgs.Pose"

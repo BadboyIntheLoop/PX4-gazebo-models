@@ -75,9 +75,7 @@
       <gravity>true</gravity>
       <velocity_decay />
     </link>
-    <!-- <plugin filename="ignition-gazebo-sensors-system"
-    name="ignition::gazebo::systems::Sensors">
-      <render_engine>ogre2</render_engine>
-    </plugin> -->
+    <!-- Sensors system plugin should be defined in the WORLD file, not here -->
+    <!-- The world's sensors plugin handles rendering for all models -->
   </model>
 </sdf>
