@@ -25,6 +25,12 @@
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
 
+# Clock (required for use_sim_time)
+- gz_topic_name: "/clock"
+  ros_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+
 # IMU for VINS-Fusion
 - gz_topic_name: "/stereo_imu"
   ros_topic_name: "/imu0"
