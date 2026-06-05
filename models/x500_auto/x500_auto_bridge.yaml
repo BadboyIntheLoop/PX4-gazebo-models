@@ -1,0 +1,126 @@
+# ROS2-Gazebo Bridge Configuration for x500_auto (3x stereo cameras for OA)
+#
+# Usage:
+#   ros2 run ros_gz_bridge parameter_bridge --ros-args \
+#     -p config_file:=/path/to/x500_auto_bridge.yaml
+#
+# Bridges 3 stereo camera pairs (front, back, bottom) from Gazebo to ROS2.
+# Each pair provides: left grayscale image + right grayscale image + camera infos.
+# Depth computed client-side via stereo disparity (e.g. stereo_image_proc).
+# World: baylands
+
+# ============================================================================
+# CLOCK - Time synchronization (Gazebo Harmonic scopes clock per world)
+# ============================================================================
+- gz_topic_name: "/world/baylands/clock"
+  ros_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+
+# ============================================================================
+# MODEL POSE - For RViz2 / state estimation
+# ============================================================================
+- gz_topic_name: "/model/x500_auto_0/pose"
+  ros_topic_name: "/model/x500_auto_0/pose"
+  ros_type_name: "geometry_msgs/msg/PoseStamped"
+  gz_type_name: "gz.msgs.Pose"
+
+# ============================================================================
+# FRONT STEREO (facing forward +X) @ 15fps
+# ============================================================================
+
+# Left camera image
+- gz_topic_name: "/stereo_front/left/image_raw"
+  ros_topic_name: "/stereo_front/left/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Left camera info
+- gz_topic_name: "/stereo_front/left/camera_info"
+  ros_topic_name: "/stereo_front/left/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# Right camera image
+- gz_topic_name: "/stereo_front/right/image_raw"
+  ros_topic_name: "/stereo_front/right/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Right camera info
+- gz_topic_name: "/stereo_front/right/camera_info"
+  ros_topic_name: "/stereo_front/right/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# ============================================================================
+# BACK STEREO (facing backward -X) @ 15fps
+# ============================================================================
+
+# Left camera image
+- gz_topic_name: "/stereo_back/left/image_raw"
+  ros_topic_name: "/stereo_back/left/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Left camera info
+- gz_topic_name: "/stereo_back/left/camera_info"
+  ros_topic_name: "/stereo_back/left/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# Right camera image
+- gz_topic_name: "/stereo_back/right/image_raw"
+  ros_topic_name: "/stereo_back/right/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Right camera info
+- gz_topic_name: "/stereo_back/right/camera_info"
+  ros_topic_name: "/stereo_back/right/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# ============================================================================
+# BOTTOM STEREO (facing down to ground) @ 15fps
+# ============================================================================
+
+# Left camera image
+- gz_topic_name: "/stereo_bottom/left/image_raw"
+  ros_topic_name: "/stereo_bottom/left/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Left camera info
+- gz_topic_name: "/stereo_bottom/left/camera_info"
+  ros_topic_name: "/stereo_bottom/left/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# Right camera image
+- gz_topic_name: "/stereo_bottom/right/image_raw"
+  ros_topic_name: "/stereo_bottom/right/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Right camera info
+- gz_topic_name: "/stereo_bottom/right/camera_info"
+  ros_topic_name: "/stereo_bottom/right/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+
+# ============================================================================
+# GIMBAL CAMERA (FullHD 30fps RGB)
+# ============================================================================
+
+# Gimbal camera image
+- gz_topic_name: "/gimbal_camera/image_raw"
+  ros_topic_name: "/gimbal_camera/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+
+# Gimbal camera info
+- gz_topic_name: "/gimbal_camera/camera_info"
+  ros_topic_name: "/gimbal_camera/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"

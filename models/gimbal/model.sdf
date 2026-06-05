@@ -267,9 +267,8 @@
           <horizontal_fov>2.0</horizontal_fov>
           <image>
             <format>R8G8B8</format>
-            <format>R8G8B8</format>
-            <width>1280</width>
-            <height>720</height>
+            <width>1920</width>
+            <height>1080</height>
           </image>
           <clip>
             <near>0.05</near>
@@ -278,7 +277,8 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
-        <visualize>true</visualize>
+        <visualize>false</visualize>
+        <topic>gimbal_camera/image_raw</topic>
       </sensor>
     </link>
 

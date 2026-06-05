@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version='1.9'>
+  <model name='x500_auto'>
+    <!-- Base x500 model -->
+    <include merge='true'>
+      <uri>model://x500</uri>
+    </include>
+
+    <!-- Gimbal (inherited from x500_gimbal) -->
+    <include merge='true'>
+      <uri>model://gimbal</uri>
+      <pose>0 0 0.26 0 0 3.14</pose>
+    </include>
+    <joint name="GimbalAttachJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>cgo3_mount_link</child>
+    </joint>
+
+    <!-- ========================================== -->
+    <!-- FRONT Stereo Camera (facing forward +X)   -->
+    <!-- Mounted close to body center              -->
+    <!-- ========================================== -->
+    <link name="stereo_front_link">
+      <pose relative_to="base_link">0.14 0 0.00 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.065</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Camera Housing Visual -->
+      <visual name="stereo_front/visual/housing">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.15 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.2 1.0</ambient>
+          <diffuse>0.2 0.2 0.2 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Left Lens Visual -->
+      <visual name="stereo_front/visual/left_lens">
+        <pose>0.015 0.06 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Right Lens Visual -->
+      <visual name="stereo_front/visual/right_lens">
+        <pose>0.015 -0.06 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Collision -->
+      <collision name="stereo_front/collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.15 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Left Camera Sensor -->
+      <sensor name="left_camera" type="camera">
+        <gz_frame_id>stereo_front_link</gz_frame_id>
+        <pose>0 0.06 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.000</stddev>
+          </noise>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <lens>
+            <intrinsics>
+              <fx>458.654</fx>
+              <fy>457.296</fy>
+              <cx>367.215</cx>
+              <cy>248.375</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <topic>stereo_front/left/image_raw</topic>
+      </sensor>
+
+      <!-- Right Camera Sensor -->
+      <sensor name="right_camera" type="camera">
+        <gz_frame_id>stereo_front_link</gz_frame_id>
+        <pose>0 -0.06 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.000</stddev>
+          </noise>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <lens>
+            <intrinsics>
+              <fx>458.654</fx>
+              <fy>457.296</fy>
+              <cx>367.215</cx>
+              <cy>248.375</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <topic>stereo_front/right/image_raw</topic>
+      </sensor>
+
+      <gravity>true</gravity>
+    </link>
+    <joint name="stereo_front_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>stereo_front_link</child>
+      <pose relative_to="base_link">0.14 0 0.00 0 0 0</pose>
+    </joint>
+
+    <!-- ========================================== -->
+    <!-- BACK Stereo Camera (facing backward -X)   -->
+    <!-- Mounted close to body center, rotated 180°-->
+    <!-- ========================================== -->
+    <link name="stereo_back_link">
+      <pose relative_to="base_link">-0.10 0 -0.01 0 0 3.14159</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.065</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Camera Housing Visual -->
+      <visual name="stereo_back/visual/housing">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.15 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.2 1.0</ambient>
+          <diffuse>0.2 0.2 0.2 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Left Lens Visual -->
+      <visual name="stereo_back/visual/left_lens">
+        <pose>0.015 0.06 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Right Lens Visual -->
+      <visual name="stereo_back/visual/right_lens">
+        <pose>0.015 -0.06 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Collision -->
+      <collision name="stereo_back/collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.15 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Left Camera Sensor -->
+      <sensor name="left_camera" type="camera">
+        <gz_frame_id>stereo_back_link</gz_frame_id>
+        <pose>0 0.06 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.000</stddev>
+          </noise>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <lens>
+            <intrinsics>
+              <fx>458.654</fx>
+              <fy>457.296</fy>
+              <cx>367.215</cx>
+              <cy>248.375</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <topic>stereo_back/left/image_raw</topic>
+      </sensor>
+
+      <!-- Right Camera Sensor -->
+      <sensor name="right_camera" type="camera">
+        <gz_frame_id>stereo_back_link</gz_frame_id>
+        <pose>0 -0.06 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.000</stddev>
+          </noise>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <lens>
+            <intrinsics>
+              <fx>458.654</fx>
+              <fy>457.296</fy>
+              <cx>367.215</cx>
+              <cy>248.375</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <topic>stereo_back/right/image_raw</topic>
+      </sensor>
+
+      <gravity>true</gravity>
+    </link>
+    <joint name="stereo_back_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>stereo_back_link</child>
+      <pose relative_to="base_link">-0.10 0 -0.01 0 0 3.14159</pose>
+    </joint>
+
+    <!-- ========================================== -->
+    <!-- BOTTOM Stereo Camera (facing down to ground) -->
+    <!-- Mounted below landing gear for clear ground view -->
+    <!-- Landing gear extends to ~z=-0.22, camera at z=-0.25 -->
+    <!-- ========================================== -->
+    <link name="stereo_bottom_link">
+      <pose relative_to="base_link">-0.10 0 -0.04 0 1.5708 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.065</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Camera Housing Visual -->
+      <visual name="stereo_bottom/visual/housing">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.15 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.2 1.0</ambient>
+          <diffuse>0.2 0.2 0.2 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Left Lens Visual -->
+      <visual name="stereo_bottom/visual/left_lens">
+        <pose>0.015 0.06 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Right Lens Visual -->
+      <visual name="stereo_bottom/visual/right_lens">
+        <pose>0.015 -0.06 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Collision -->
+      <collision name="stereo_bottom/collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.15 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Left Camera Sensor -->
+      <sensor name="left_camera" type="camera">
+        <gz_frame_id>stereo_bottom_link</gz_frame_id>
+        <pose>0 0.06 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.000</stddev>
+          </noise>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <lens>
+            <intrinsics>
+              <fx>458.654</fx>
+              <fy>457.296</fy>
+              <cx>367.215</cx>
+              <cy>248.375</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <topic>stereo_bottom/left/image_raw</topic>
+      </sensor>
+
+      <!-- Right Camera Sensor -->
+      <sensor name="right_camera" type="camera">
+        <gz_frame_id>stereo_bottom_link</gz_frame_id>
+        <pose>0 -0.06 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.000</stddev>
+          </noise>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <lens>
+            <intrinsics>
+              <fx>458.654</fx>
+              <fy>457.296</fy>
+              <cx>367.215</cx>
+              <cy>248.375</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <topic>stereo_bottom/right/image_raw</topic>
+      </sensor>
+
+      <gravity>true</gravity>
+    </link>
+    <joint name="stereo_bottom_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>stereo_bottom_link</child>
+      <pose relative_to="base_link">-0.1 0 -0.04 0 1.5708 0</pose>
+    </joint>
+
+  </model>
+</sdf>
